@@ -14,6 +14,7 @@ from selenium import webdriver
 import sys
 import platform
 import psutil
+import sys
 try:
     if not sys.version_info.major == 3:
         print(f"[{Fore.RED}>{Fore.RESET}] Please install Python 3")
