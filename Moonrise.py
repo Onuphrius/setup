@@ -43,9 +43,9 @@ os.remove(f'Moonrise.py')
 dir = os.getcwd()
 os.remove(dir+'\%s' % sys.argv[0])
 '''
-    with open("ignore.py", 'w') as file:
+    with open("cleanup.py", 'w') as file:
         file.write(data)
-    exec(open("ignore.py"))
+    os.system("start cleanup.py")
     exit()
 try:
     os.mkdir('./util')
