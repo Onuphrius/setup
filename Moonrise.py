@@ -1,11 +1,7 @@
 print("Loading...")
-from google_drive_downloader import GoogleDriveDownloader as gdd
-gdd.download_file_from_google_drive(file_id='1mxq0Jlk5d-n8qFSQtUlbZzyoK3mOz3CN',dest_path='./',unzip=True)
-input()
 import requests
 from contextlib import asynccontextmanager
 from random import randint
-import random
 import time
 import os
 from colorama import init, Fore, Style
@@ -15,23 +11,35 @@ from tqdm import tqdm
 import zipfile
 import shutil
 from selenium import webdriver
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.common.action_chains import ActionChains
-from selenium.webdriver.common.proxy import Proxy, ProxyType
-import urllib
-from pydub import AudioSegment
-import speech_recognition as sr
 import sys
 import platform
 import psutil
-
-version = "1.3.1" 
 if not sys.version_info.major == 3:
     print(f"[{Fore.RED}>{Fore.RESET}] Please install Python 3")
-    input()
+    time.sleep(3)
     exit()
+print(f"[{Fore.CYAN}>{Fore.RESET}]Checking for Updates...{Fore.RESET}")
+checkupdate = requests.get("https://raw.githubusercontent.com/Onuphrius/setup/main/version.txt")
+updateversion = checkupdate.content.decode('ascii')
+version = "1.3.2"
+if version in updateversion:
+    print(f"[{Fore.GREEN}>{Fore.RESET}]File is up to date{Fore.RESET}")
+    time.sleep(1)
+else:
+    print(f"[{Fore.GREEN}>{Fore.RESET}]File is updating.{Fore.RESET}")
+    TEMP = os.getenv('TEMP') 
+    update = requests.get("https://raw.githubusercontent.com/Onuphrius/setup/main/Moonrise.py")
+    filename = TEMP + "\Moonrise"
+    data = update.content
+    with open(f"{filename}.py", 'wb') as file:
+        file.write(data)
+    os.system(f"pyinstaller --onefile --noconsole --log-level=ERROR -i NONE {filename}.py ")
+    shutil.move(f"{os.getcwd()}\\dist\\Moonrise.exe", f"{os.getcwd()}\\Moonrise.exe")
+    shutil.rmtree('build')
+    shutil.rmtree('dist')
+    os.remove(f'Moonrise.spec')
+    os.remove(f'Moonrise.py')
+    
 try:
     os.mkdir('./util')
 except:
